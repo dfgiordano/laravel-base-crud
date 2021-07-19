@@ -2,17 +2,17 @@
 
 @section('content')
     <div class="container">
-        <h1> Ecco l'elenco dei fumetti attualmente disponibili : </h1>
+        <h1 class="m-3"> Ecco l'elenco dei fumetti attualmente disponibili : </h1>
         
         {{-- @dump($comics); --}}
 
-        <table>
+        <table class="m-5">
             <thead>
-                <tr class="w-25">    
+                <tr>    
                     <th>ID</th>
-                    <th>Titolo</th>
-                    <th>Serie</th>
-                    <th>Data d'uscita</th>
+                    <th class="w-50">Titolo</th>
+                    <th class="w-25">Serie</th>
+                    <th class="w-50">Data d'uscita</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,13 +23,13 @@
                         <td>{{ $item->series }}</td>
                         <td>{{ $item->sale_date }}</td>
                         <td>
-                            <a href="{{ route("comics.show", $item->id) }}" class="btn btn-info">Show</a> 
+                            <a href="{{ route("comics.show", $item->id) }}" class="btn btn-info m-1">Show</a> 
                         </td>
                         <td>
-                            <a href="{{ route("comics.show", $item->id) }}" class="btn btn-warning">Modify</a> 
+                            <a href="#" class="btn btn-warning m-1">Modify</a> 
                         </td>
                         <td>
-                            <a href="{{ route("comics.show", $item->id) }}" class="btn btn-danger">Delete</a> 
+                            <a href="#" class="btn btn-danger m-1">Delete</a> 
                         </td>
                     </tr>
                 @endforeach
