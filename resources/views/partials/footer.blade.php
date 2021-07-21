@@ -1,3 +1,3 @@
-<footer class="text-center bg-dark text-white">
-    Created by Boolean
+<footer class="text-center">
+    Created by Boolean Trainee
 </footer>
