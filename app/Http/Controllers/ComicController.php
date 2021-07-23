@@ -14,7 +14,7 @@ class ComicController extends Controller
      */
     public function index()
     {
-        $comics = Comic::paginate(5);
+        $comics = Comic::orderBy("id","DESC")->paginate(5);
 
         return view("comics.index",compact('comics'));
     }
@@ -42,17 +42,20 @@ class ComicController extends Controller
         //creare nuova istanza
         $comic = new Comic();
         //assegnare i nuovi dati
-        $comic->title = $data["title"];
-        $comic->description = $data["description"];
-        $comic->thumb = $data["thumb"];
-        $comic->price = $data["price"];
-        $comic->series = $data["series"];
-        $comic->sale_date = $data["sale_date"];
-        $comic->type = $data["type"];
+        // $comic->title = $data["title"];
+        // $comic->description = $data["description"];
+        // $comic->thumb = $data["thumb"];
+        // $comic->price = $data["price"];
+        // $comic->series = $data["series"];
+        // $comic->sale_date = $data["sale_date"];
+        // $comic->type = $data["type"];
+        // mass assignment MA PRIMA DEVO FARE IL FILLABLE NEL CONTROLLER 
+        $comic->fill($data);
         //salvare i dati
         $comic->save();
         //redirect alla pagina che voglio dopo aver caricato un nuovo record
-        return redirect()->route('comics.show', $comic->id);
+        return redirect()->route('comics.show', $comic->id)
+        ->with('message', 'Hai creato con successo un nuovo fumetto!');
     }
 
     /**
@@ -91,7 +94,15 @@ class ComicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $comic = Comic::findOrFail($id);
+
+        $data = $request->all();
+
+        $comic->update($data);
+
+        return 
+            redirect()->route('comics.show', $comic->id)
+            ->with('message', 'Hai modificato con successo il fumetto!');
     }
 
     /**
@@ -100,8 +111,16 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        //anzichè fare il find & abort, o il findOrFail, posso far fare l'abbinamento a laravel scrivendo (Comic $comic)
+        //dump($comic);
+
+        $comic->delete();
+
+        return redirect()
+            ->route('comics.index')
+            ->with('deleted', 'Hai cancellato con successo il fumetto!')
+            ;
     }
 }

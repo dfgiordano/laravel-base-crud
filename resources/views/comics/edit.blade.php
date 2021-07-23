@@ -2,19 +2,24 @@
 
 @section('content')
     
-
     <div class="container">
         <h1>Modifica fumetto : {{ $comic->title }}</h1>
-        <form action="{{ route('comics.store') }}" method="POST">
+        {{-- @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>          
+        @endif --}}
+        <a href="{{ route('comics.show', $comic->id) }}" class="btn btn-primary">Visualizza</a>
+        <form action="{{ route('comics.update',$comic->id) }}" method="POST">
             @csrf
-            @method("POST")
+            @method("PATCH")
             <div class="form-group">
                 <label for="title">Titolo</label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="Inserisci un nuovo titolo" value="{{ $comic->title }}">
             </div>
             <div class="form-group">
                 <label for="description">Descrizione</label>
-                <textarea class="form-control" id="description" rows="3" name="description" placeholder="Inserisci una nuova descrizione" value="{{ $comic->description }}}"></textarea>
+                <textarea class="form-control" id="description" rows="5" name="description" placeholder="Inserisci una nuova descrizione">{{ $comic->description }}</textarea>
             </div>
             <div class="form-group">
                 <label for="thumb">Url</label>
@@ -37,6 +42,7 @@
                 <input type="text" class="form-control" id="type" name="type" placeholder="Inserisci la tipologia" value="{{ $comic->type }}">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{{ route('comics.index') }}">Back</a>
           </form>
     </div>
 @endsection

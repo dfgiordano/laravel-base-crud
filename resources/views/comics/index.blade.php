@@ -6,6 +6,12 @@
         
         {{-- @dump($comics); --}}
 
+        @if (session('deleted'))
+            <div class="alert alert-success">
+                {{ session('deleted') }}
+            </div>          
+        @endif
+
         <table class="m-5">
             <thead>
                 <tr>    
@@ -29,7 +35,17 @@
                             <a href="{{ route("comics.edit", $item->id) }}" class="btn btn-warning m-1">Modify</a> 
                         </td>
                         <td>
-                            <a href="#" class="btn btn-danger m-1">Delete</a> 
+                           <form 
+                                action="{{ route('comics.destroy', $item->id) }}" 
+                                method="POST"
+                                onSubmit = "return comfirm ('Sei sicuro di voler cancellare questo fumetto?')"
+                            >
+                            {{-- onsubmit do un alert all'utente per chiedere conferma dell'azione fatta
+                            return true cancella, return false non cancella --}}
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="DELETE" class="btn btn-danger">
+                           </form>
                         </td>
                     </tr>
                 @endforeach
